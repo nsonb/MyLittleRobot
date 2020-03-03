@@ -68,12 +68,15 @@ public class ReactPlayer : MonoBehaviour
             LookAtPlayer();
         }
         StopAlarm();
-        
         yield return StartCoroutine("MoveForwardPlayer");
     }
 
     IEnumerator MoveForwardPlayer() 
     {
+        for(int i = 0; i<20; i++) {
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, setting.step);        
+        }
+        target = null;
         focusLight.gameObject.SetActive(false);
         yield return null;
     }
@@ -85,10 +88,12 @@ public class ReactPlayer : MonoBehaviour
         }
     }
 
+    // set up so the enemy will look at the player, but only rotate in x and z direction
     void LookAtPlayer() {
         if(target != null) {
-            
-            transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position);
+            Vector3 lookPosition = target.transform.position - transform.position;
+            lookPosition.y = 0;
+            transform.rotation = Quaternion.LookRotation(lookPosition);
         }
     }
 

@@ -7,4 +7,5 @@ public class AttackStat : ScriptableObject {
     public float range;
     public float time;
     public float enemyJumpForce;
+    public float step;
 }

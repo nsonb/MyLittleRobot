@@ -32,7 +32,7 @@ public class AlarmManager : MonoBehaviour
 
     void CapturePlayer() {
         alarmState++;
-        if(alarmState > 3) {
+        if(alarmState >= 3) {
             antiGravityZone.transform.position = player.transform.position;
         }
         
