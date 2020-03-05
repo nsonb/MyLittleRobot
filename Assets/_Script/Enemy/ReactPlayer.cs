@@ -68,13 +68,14 @@ public class ReactPlayer : MonoBehaviour
             LookAtPlayer();
         }
         StopAlarm();
-        yield return StartCoroutine("MoveForwardPlayer");
+        yield return StartCoroutine("MoveTowardPlayer");
     }
 
-    IEnumerator MoveForwardPlayer() 
+    IEnumerator MoveTowardPlayer() 
     {
         for(int i = 0; i<20; i++) {
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, setting.step);        
+            LookAtPlayer();
+            rb.AddForce(setting.step * transform.forward);        
         }
         target = null;
         focusLight.gameObject.SetActive(false);

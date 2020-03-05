@@ -11,13 +11,9 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
 
     void FixedUpdate() {
-        
-        float tempY = rb.velocity.y;
-        if (rb.velocity.magnitude > maxVelocity)
-        {
-            rb.velocity = rb.velocity.normalized * maxVelocity;
+        if(isAbleToMove && Input.GetAxis("Vertical") !=0) {
+            rb.velocity = CalculateSpeed(speed);
         }
-        rb.velocity = new Vector3(rb.velocity.x, tempY, rb.velocity.z);
     }
     void Start()
     {
@@ -25,9 +21,10 @@ public class PlayerMovement : MonoBehaviour
     }
     // Update is called once per frame
     void Update()
-    {      
+    {   
+        
         if(isAbleToMove){
-            rb.AddForce(Input.GetAxis("Vertical") * speed * transform.forward);
+            //rb.AddForce(Input.GetAxisRaw("Vertical") * speed * transform.forward); 
         }
         
     }
@@ -42,5 +39,20 @@ public class PlayerMovement : MonoBehaviour
         if(other.gameObject.CompareTag("antiGravityZone")){
             isAbleToMove = true;
         }
+    }
+
+    Vector3 CalculateSpeed(float speed) {
+        Vector3 movement = new Vector3(0, 0, speed);
+        float coefficient = (float)System.Math.Sqrt(movement.magnitude/transform.forward.magnitude);
+        if(Input.GetAxis("Vertical") > 0) {
+            return new Vector3(transform.forward.x * coefficient, rb.velocity.y, transform.forward.z * coefficient);
+        } else if (Input.GetAxis("Vertical") < 0) {
+            return new Vector3(-transform.forward.x * coefficient, rb.velocity.y, -transform.forward.z * coefficient);
+        } else {
+            return new Vector3(0, rb.velocity.y, 0);
+        }
+        
+        
+        
     }
 }

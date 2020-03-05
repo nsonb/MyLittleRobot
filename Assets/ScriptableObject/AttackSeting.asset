@@ -15,3 +15,4 @@ MonoBehaviour:
   range: 8.25
   time: 3
   enemyJumpForce: 3
+  step: 15
